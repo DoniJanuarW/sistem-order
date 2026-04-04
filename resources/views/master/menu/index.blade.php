@@ -284,6 +284,8 @@
 
 
   function toggleMenuStatus(id, currentStatus, button) {
+    let toggleUrl = `{{ route('admin.menu.toggleStatus', ['id' => ':id']) }}`.replace(':id', id);
+
     button.disabled = true;
     button.classList.add('opacity-50', 'cursor-not-allowed');
     
@@ -293,7 +295,7 @@
     <span>Loading...</span>
     `;
     
-    fetch(`http://127.0.0.1:8000/admin/menu/${id}/toggle-status`, {
+    fetch(toggleUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -369,7 +371,7 @@
     </div>
     `;
 
-    fetch(`http://127.0.0.1:8000/admin/menu/${id}`)
+    fetch(`{{ route('admin.menu.get', ['id' => ':id']) }}`.replace(':id', id))
     .then(res => res.json())
     .then(data => {
       let menu = data;

@@ -52,7 +52,7 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
         Route::put('/{id}', 'update')->name('admin.table.update');
         Route::delete('/{id}', 'destroy')->name('admin.table.destroy');
 
-        Route::post('/{id}/toggle-status', 'toggleStatus');
+        Route::post('/{id}/toggle-status', 'toggleStatus')->name('admin.table.toggleStatus');
     });
 
     Route::prefix('menu')->controller(\App\Http\Controllers\Admin\MenuController::class)->group(function () {
@@ -66,7 +66,7 @@ Route::prefix('admin')->middleware('role:admin')->group(function () {
         Route::put('/{id}', 'update')->name('admin.menu.update');
         Route::delete('/{id}', 'destroy')->name('admin.menu.destroy');
 
-        Route::post('/{id}/toggle-status', 'toggleStatus');
+        Route::post('/{id}/toggle-status', 'toggleStatus')->name('admin.menu.toggleStatus');
     });
 
     Route::prefix('category')->controller(\App\Http\Controllers\Admin\CategoryController::class)->group(function () {
@@ -100,7 +100,7 @@ Route::prefix('cashier')->middleware('role:cashier')->group(function () {
         Route::get('/', 'index')->name('cashier.menu.index');
         Route::get('/{id}', 'get')->name('cashier.menu.get')->whereNumber('id');; 
 
-        Route::post('/{id}/toggle-status', 'toggleStatus');
+        Route::post('/{id}/toggle-status', 'toggleStatus')->name('cashier.menu.toggleStatus');
     });
 
     Route::prefix('order')->controller(\App\Http\Controllers\Cashier\OrderController::class)->group(function () {

@@ -150,6 +150,7 @@
 		window.tableManager.delete(id, button);
 	}
 	function showDetailModal(id) {
+		let toggleUrl = `{{ route('admin.table.get', ['id' => ':id']) }}`.replace(':id', id);
 		document.getElementById('detailModal').classList.remove('hidden');
 		document.getElementById('modalContent').innerHTML = `
   <div class="animate-pulse space-y-4 p-5">
@@ -160,7 +161,7 @@
 		`;
 
 
-		fetch(`http://127.0.0.1:8000/admin/table/${id}`)
+		fetch(toggleUrl)
 		.then(res => res.json())
 		.then(data => {
 			document.getElementById('modalContent').innerHTML = `
@@ -224,6 +225,7 @@
 
 
 	function toggleStatus(id, currentStatus, button) {
+		let toggleUrl = `{{ route('admin.table.toggleStatus', ['id' => ':id']) }}`.replace(':id', id);
 		button.disabled = true;
 		button.classList.add('opacity-50', 'cursor-not-allowed');
 
@@ -233,7 +235,7 @@
     <span>Loading...</span>
 		`;
 
-		fetch(`/table/${id}/toggle-status`, {
+		fetch(toggleUrl, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

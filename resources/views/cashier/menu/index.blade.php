@@ -168,7 +168,7 @@
       modalId: 'create-modal',
       formId: 'menu-form',
       apiUrl: '/menu',
-      responsive: true, // TAMBAHKAN INI
+      responsive: true,
       autoWidth: false,
       dataTableUrl: '{{ route('cashier.menu.tableMenu') }}',
       formFields: ['category_id', 'name', 'price', 'description', 'image', 'status'],
@@ -275,7 +275,8 @@
 
 
   function toggleMenuStatus(id, currentStatus, button) {
-    {{-- let ='{{ route('cashier.menu.tableMenu') }}' --}}
+    let toggleUrl = `{{ route('cashier.menu.toggleStatus', ['id' => ':id']) }}`.replace(':id', id);
+
     button.disabled = true;
     button.classList.add('opacity-50', 'cursor-not-allowed');
     
@@ -285,7 +286,7 @@
     <span>Loading...</span>
     `;
     
-    fetch(`http://127.0.0.1:8000/cashier/menu/${id}/toggle-status`, {
+    fetch(toggleUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
