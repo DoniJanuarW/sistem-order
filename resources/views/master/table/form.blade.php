@@ -12,8 +12,7 @@
 	<div class="bg-white border rounded-xl shadow-xl p-6">
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 			<x-form-input name="table_number"  id="table_number" label="No table"  placeholder="Masukan nomor table " icon="ti ti-user" required  :value="old('table_number', $table->table_number ?? '')"/>
-				<x-form-input name="status"  id="status" label="status"  placeholder="input status" icon="ti ti-mail" required :value="old('status', $table->status ?? '')"/>
-
+			<x-form-select name="status" id="status" label="Status" :options="['active' => 'Available', 'inactive' => 'Inactive']" :value="old('status', $table->status ?? '')" required />
 				</div>
 				<div class="flex gap-2 my-3">
 					<button type="reset" class="flex items-center gap-2 px-5 py-2
