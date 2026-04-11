@@ -119,8 +119,8 @@
 @section('content')
 <x-card-breadcrumb title="Menu Management" :isCreate="true" createUrl="admin.menu.create"/>
 
-<div class="w-full bg-white rounded-xl shadow-sm border border-gray-100 p-2 sm:p-4">
-    <div class="overflow-x-auto min-w-full inline-block align-middle">
+<!-- <div class="w-full bg-white rounded-xl shadow-sm border border-gray-100 p-2 sm:p-4">
+    <div class="overflow-x-auto min-w-full inline-block align-middle"> -->
         <x-datatable id="datatables" class="min-w-[800px]"> <thead>
                 <tr>
                     <th class="w-16">No</th>
@@ -134,8 +134,8 @@
             <tbody>
             </tbody>
         </x-datatable>
-    </div>
-</div>
+    <!-- </div> -->
+<!-- </div> -->
 
 
 <div id="detailModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
