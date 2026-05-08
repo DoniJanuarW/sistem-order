@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('table_id')
+                  ->nullable()
                   ->constrained('tables')
                   ->cascadeOnDelete();
             $table->string('order_code')->unique();

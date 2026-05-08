@@ -208,4 +208,5 @@
 @endsection
 
 @section('js')
+<script src="{{ asset('assets/js/action/form-update.js') }}"></script>
 @endsection
