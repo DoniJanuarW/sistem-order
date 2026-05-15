@@ -12,10 +12,10 @@ class PaymentController extends Controller
 {
    public function paymentPage($orderId)
     {
-        $order = Order::where('id', $orderId)
+        $order = Order::with(['payment', 'table'])->where('id', $orderId)
                       ->where('customer_id', Auth::id()) 
                       ->firstOrFail();
-
+    // dd($order);
         return view('customer.payment', compact('order'));
     }
 

@@ -156,7 +156,7 @@
                 </label>
 
                 <label class="cursor-pointer relative">
-                    <input type="radio" name="payment_method" value="online" class="peer" onchange="savePaymentMethod(this.value)">
+                    <input type="radio" name="payment_method" value="midtrans" class="peer" onchange="savePaymentMethod(this.value)">
                     <div class="flex flex-col items-center justify-center p-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-500 transition-all h-full peer-checked:border-[#014421] peer-checked:bg-green-50 peer-checked:text-[#014421]">
                         <svg class="w-6 h-6 mb-1 text-current" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4h2v-4zM5 4h4v4H5V4zm0 12h4v4H5v-4zm10-8h4v4h-4V8z"></path>
@@ -206,8 +206,10 @@
 @endsection
 
 @section('js')
-<script src="{{ env('MIDTRANS_SNAP_URL', 'https://app.sandbox.midtrans.com/snap/snap.js') }}" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
-
+<script 
+    src="{{ config('services.midtrans.snap_url') }}" 
+    data-client-key="{{ config('services.midtrans.client_key') }}">
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Init saved Order Type (Makan di Tempat / Takeaway)

@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\PaymentService;
 
+use App\Models\Payment;
+
 class PaymentController extends Controller
 {
     protected $paymentService;
@@ -55,4 +57,58 @@ class PaymentController extends Controller
         }
     }
 
+
+    public function export(Request $request)
+    {
+        $fileName = 'Laporan_Transaksi_' . date('Y-m-d_H-i-s') . '.csv';
+
+        $query = Payment::with(['order', 'cashier_updated_by']); 
+
+        if ($request->filled('from')) {
+            $query->whereDate('paid_at', '>=', $request->from);
+        }
+        if ($request->filled('to')) {
+            $query->whereDate('paid_at', '<=', $request->to);
+        }
+        if ($request->filled('method')) {
+            $query->where('method', $request->method);
+        }
+
+        $payments = $query->orderBy('paid_at', 'desc')->get();
+
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $callback = function() use ($payments) {
+            $file = fopen('php://output', 'w');
+            
+            // Judul Kolom (Header CSV)
+            fputcsv($file, ['ID Pembayaran', 'Tipe Customer', 'Metode', 'Nominal', 'Tanggal Pembayaran', 'Status', 'Kasir']);
+
+            foreach ($payments as $tx) {
+                $customerType = $tx->order->customer_id != null ? 'Customer' : 'Cashier';
+                $amount = 'Rp ' . number_format($tx->amount, 0, ',', '.');
+                $date = date('d-m-Y H:i', strtotime($tx->paid_at));
+
+                fputcsv($file, [
+                    $tx->payment_code,
+                    $customerType,
+                    strtoupper($tx->method),
+                    $amount,
+                    $date,
+                    $tx->payment_status,
+                    $tx->cashier_updated_by->full_name ?? 'N/A'
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }

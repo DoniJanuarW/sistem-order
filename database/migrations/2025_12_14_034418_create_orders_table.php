@@ -30,6 +30,10 @@ return new class extends Migration
                 'cancelled'
             ])->default('pending');
             $table->decimal('total_amount', 12, 2)->default(0);
+             $table->foreignId('updated_by')
+                  ->nullable()
+                  ->constrained('users')
+                  ->cascadeOnDelete();
             $table->timestamps();
         });
     }

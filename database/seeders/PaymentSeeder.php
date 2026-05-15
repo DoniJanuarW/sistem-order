@@ -5,7 +5,9 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Payment;
 use App\Models\Order;
-use App\Models\Menu; // <-- 1. Wajib ditambahkan
+use App\Models\Menu;
+use Illuminate\Support\Str;
+
 
 class PaymentSeeder extends Seeder
 {
@@ -27,6 +29,7 @@ class PaymentSeeder extends Seeder
             $isPaid = $i % 2 == 0;
 
             Payment::create([
+                'payment_code'   => 'TRX-' . now()->format('Ymd') . '-' . Str::upper(Str::random(4)),
                 'order_id'       => $orders->random()->id,
                 'method'         => $isPaid ? 'qris' : 'cash',
                 'amount'         => $totalAmount,

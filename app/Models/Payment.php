@@ -20,6 +20,12 @@ class Payment extends Model
     {
         return $this->belongsTo(Order::class, 'order_id');
     }
+
+    public function cashier_updated_by()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
     public function orderItems()
     {
        return $this->hasMany(OrderItem::class, 'order_id', 'order_id');

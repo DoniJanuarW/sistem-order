@@ -123,7 +123,8 @@ Route::prefix('cashier')->middleware('role:cashier')->group(function () {
         Route::get('/', 'index')->name('cashier.payment.all');  
         Route::get('/this-month', 'thisMonth')->name('cashier.payment.thisMonth');   
         Route::get('/filter', 'filter')->name('cashier.payment.filter');   
-
+        Route::get('/export', 'export')->name('cashier.payment.export');
+        
         Route::patch('/{id}', 'updateStatus')->name('cashier.payment.update-payment');   
     });
 

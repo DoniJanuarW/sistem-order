@@ -12,7 +12,7 @@ class OrderSeeder extends Seeder
     {
         Order::create([
             'table_id'     => 4,
-            'order_code'   => 'TRX' . now()->format('Ymd') . '001',
+            'order_code'   => 'ORD' . now()->format('Ymd') . '001',
             'customer_id'  => null,
             'status'       => 'pending',
             'total_amount' => 60000,
@@ -20,7 +20,7 @@ class OrderSeeder extends Seeder
 
         Order::create([
             'table_id'     => 2,
-            'order_code'   => 'TRX' . now()->format('Ymd') . '002',
+            'order_code'   => 'ORD' . now()->format('Ymd') . '002',
             'customer_id'  => 1,
             'status'       => 'completed',
             'total_amount' => 120000,

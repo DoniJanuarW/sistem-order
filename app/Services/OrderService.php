@@ -23,6 +23,7 @@ class OrderService
     public function all()
     {
         return Order::with(['items.menu', 'table', 'customer'])
+        // ->where('updated_by', auth()->id())
         ->whereDate('created_at', now())
         ->latest()
         ->get();
@@ -113,7 +114,7 @@ class OrderService
                 $cart->delete();
                 
                 if (isset($data['payment_method'])) {
-                    $payMethod = $data['payment_method'] === 'online' ? 'midtrans' : 'cash';
+                    $payMethod = $data['payment_method'] === 'midtrans' ? 'midtrans' : 'cash';
                     $this->createPayment($order, $finalTotal, $payMethod, 'pending');
                 }
 
@@ -133,7 +134,10 @@ class OrderService
     public function updateStatus(int $id, string $status): Order
     {
         $order = Order::findOrFail($id);
-        $order->update(['status' => $status]);
+        $order->update([
+            'status' => $status,
+            'updated_by' => auth()->id()
+            ]);
 
         return $order;
     }
@@ -336,9 +340,8 @@ class OrderService
         foreach ($order->items as $item) {
             $item_details[] = [
                 'id'       => $item->menu_id,
-                'price'    => (int) $item->menu->price * $item->qty,
+                'price'    => (int) $item->menu->price,
                 'quantity' => $item->qty,
-                // Batasi nama item maksimal 50 karakter (aturan Midtrans)
                 'name'     => substr($item->menu->name ?? 'Menu', 0, 50) 
             ];
         }
@@ -357,10 +360,8 @@ class OrderService
         ];
 
         try {
-            // 4. Minta Token ke Server Midtrans
             $snapToken = Snap::getSnapToken($params);
 
-            // 5. Simpan token ke database order
             $order->payment()->update(['snap_token' => $snapToken]);
 
             return $snapToken;

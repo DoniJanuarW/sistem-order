@@ -41,7 +41,7 @@ class OrderController extends Controller
         $callback = function() use ($query) {
             $file = fopen('php://output', 'w');
             
-            fputcsv($file, ['Waktu Order', 'Kode Order', 'Pelanggan', 'Meja', 'Total', 'Metode Bayar', 'Status Pembayaran', 'Status Order']);
+            fputcsv($file, ['Waktu Order', 'Kode Order', 'Pelanggan', 'Kasir', 'Meja', 'Total', 'Metode Bayar', 'Status Pembayaran', 'Status Order']);
 
             $query->chunk(100, function($orders) use ($file) {
                 foreach ($orders as $order) {
@@ -49,6 +49,7 @@ class OrderController extends Controller
                         $order->created_at->format('d/m/Y H:i'),
                         $order->order_code,
                         $order->guest_name ?? $order->customer->name ?? 'Umum',
+                        $order->updatedBy->name ?? 'N/A',
                         $order->table->table_number ?? 'Takeaway',
                         $order->total_amount,
                         strtoupper($order->payment->method ?? '-'),

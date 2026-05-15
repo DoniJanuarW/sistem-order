@@ -17,9 +17,9 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             MenuSeeder::class,
             TableSeeder::class,
-            OrderSeeder::class,
-            OrderItemSeeder::class,
-            PaymentSeeder::class,
+            // OrderSeeder::class,
+            // OrderItemSeeder::class,
+            // PaymentSeeder::class,
         ]);
     }
 }

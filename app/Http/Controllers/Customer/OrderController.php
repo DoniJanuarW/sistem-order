@@ -23,11 +23,11 @@ class OrderController extends Controller
         if($request->order_type === 'dine_in') {
             $request->validate([
                 'table_number'   => 'required|numeric',
-                'payment_method' => 'required|in:cash,online',
+                'payment_method' => 'required|in:cash,midtrans',
             ]);
         } else {
             $request->validate([
-                'payment_method' => 'required|in:cash,online',
+                'payment_method' => 'required|in:cash,midtrans',
             ]);
         }
 
@@ -38,7 +38,7 @@ class OrderController extends Controller
             ]);
 
             $snapToken = null;
-            if ($request->payment_method === 'online') {
+            if ($request->payment_method === 'midtrans') {
                 $snapToken = $this->orderService->generateSnapToken($order);
             }
 

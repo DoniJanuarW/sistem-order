@@ -34,11 +34,11 @@
                     </div>
                 </div>
 
-                <div class="flex items-center gap-1 mb-3">
+                <!-- <div class="flex items-center gap-1 mb-3">
                     <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
                     <span class="text-xs font-medium text-gray-600">4.8</span>
                     <span class="text-[10px] text-gray-400">(120+ terjual)</span>
-                </div>
+                </div> -->
 
                 <p id="modalDescription" class="text-sm md:text-xs text-gray-500 leading-relaxed mb-5">
                     Deskripsi produk akan muncul di sini...

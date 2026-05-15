@@ -22,15 +22,19 @@ class DashboardService
         $stats = [
             'unpaid_orders' => Order::whereHas('payment', function($q) {
                 $q->where('payment_status', '!=', 'success');
-            })->whereDate('created_at', $today)->count(),
+            })->where('status', '!=', 'cancelled')->whereDate('created_at', $today)->count(),
 
             'active_tables' => Table::where('status', 'occupied')->count(),
 
             'today_revenue' => Payment::where('payment_status', 'success')
                 ->whereDate('paid_at', $today)
+                ->whereHas('order', function ($query) {
+                    $query->where('updated_by', auth()->id()); 
+                })
                 ->sum('amount'),
-
-            'completed_today' => Order::where('status', 'completed')
+                
+            'completed_today' => Order::where('updated_by', auth()->id())
+                ->where('status', 'completed')
                 ->whereDate('created_at', $today)
                 ->count(),
         ];
@@ -71,9 +75,9 @@ class DashboardService
                 ->whereBetween('created_at', [$startDate, $endDate])
                 ->count(),
 
-            'total_customers' => Order::whereBetween('created_at', [$startDate, $endDate])
-                ->distinct('customer_id')
-                ->count(),
+            // 'total_customers' => Order::whereBetween('created_at', [$startDate, $endDate])
+            //     ->distinct('customer_id')
+            //     ->count(),
         ];
 
         $stats['avg_transaction'] = $stats['total_orders'] > 0 

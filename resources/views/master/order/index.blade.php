@@ -69,6 +69,7 @@
                 <tr class="bg-gray-50 border-b border-gray-200 text-xs text-gray-500 uppercase tracking-wider">
                     <th class="px-6 py-4 font-bold">Waktu Order</th>
                     <th class="px-6 py-4 font-bold">Kode / Pelanggan</th>
+                    <th class="px-6 py-4 font-bold">Kasir</th>
                     <th class="px-6 py-4 font-bold text-center">Meja</th>
                     <th class="px-6 py-4 font-bold text-right">Total</th>
                     <th class="px-6 py-4 font-bold text-center">Metode</th>
@@ -92,6 +93,9 @@
                         <span class="text-xs font-semibold text-gray-600 mt-1 block truncate max-w-[150px]">
                             {{ $order->guest_name ?? $order->customer->name ?? 'Pelanggan Umum' }}
                         </span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="font-medium text-gray-800">{{ $order->updatedBy->name ?? 'N/A' }}</span>
                     </td>
 
                     <td class="px-6 py-4 text-center">

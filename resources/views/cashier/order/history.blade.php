@@ -69,9 +69,6 @@
 <div class="bg-white border border-gray-100 rounded-xl shadow-sm">
     <div class="p-6 border-b border-gray-100 flex justify-between">
         <h2 class="text-lg font-semibold text-gray-900">Daftar Transaksi</h2>
-        <button class=" rounded-lg bg-green-600 hover:bg-green-700 text-white py-2.5 px-4 font-medium transition">
-            Export 
-        </button>
     </div>
     <div id="loadingState" class="hidden py-10 text-center">
         <div class="inline-flex items-center gap-2 text-purple-600">
@@ -136,7 +133,7 @@
 
         function updateStats(stats) {
             const fmt = (num) => 'Rp ' + Number(num).toLocaleString('id-ID');
-            console.log(stats)
+            // console.log(stats)
 
             document.getElementById('statTotal').innerText = stats.total_count;
             document.getElementById('statIncome').innerText = fmt(stats.total_income);
@@ -197,6 +194,16 @@
             const to = endDate.value;
             const method = paymentFilter.value;
             fetchTransactions({ from, to, method });
+        };
+
+        window.exportData = () => {
+            const from = document.getElementById('startDate').value;
+            const to = document.getElementById('endDate').value;
+            const method = document.getElementById('paymentFilter').value;
+
+            const query = new URLSearchParams({ from, to, method }).toString();
+
+            window.location.href = `{{ route('cashier.payment.export') }}?${query}`;
         };
 
         function createTransactionCard(tx) {

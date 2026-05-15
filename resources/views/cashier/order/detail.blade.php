@@ -2,7 +2,8 @@
 @section('title', 'Grand Santhi Coffee Shop - Detail Pesanan')
 
 @section('css')
-@vite(['resources/js/cashier/form-update.js'])
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection
 
 @section('content')
@@ -140,7 +141,7 @@
                     @endforeach
                 </select>
 
-                <button type="submit" class="btn-submit w-full mt-4 bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition-colors font-bold flex justify-center items-center gap-2">
+                <button class="btn-submit w-full mt-4 bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition-colors font-bold flex justify-center items-center gap-2">
                     <span>Simpan Status Pesanan</span>
                 </button>
             </form>

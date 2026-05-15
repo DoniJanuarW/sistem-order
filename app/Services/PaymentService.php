@@ -53,8 +53,9 @@ class PaymentService
    public function filter(?string $from = null, ?string $to = null, ?string $method = null): JsonResponse 
    {
         try {
-                    // 1. Base Query (Filter Tanggal & Method saja dulu)
-            $baseQuery = Payment::query();
+            $baseQuery = Payment::with('order')->whereHas('order', function($q) {
+                $q->where('updated_by', auth()->id());
+            });
 
             if ($from) {
                 $baseQuery->where('paid_at', '>=', Carbon::parse($from)->startOfDay());
@@ -63,11 +64,16 @@ class PaymentService
                 $baseQuery->where('paid_at', '<=', Carbon::parse($to)->endOfDay());
             }
             if ($method && $method !== 'all') {
-                $baseQuery->where('method', $method);
+                if($method === 'transfer'){
+                    $baseQuery->where([
+                        ['method',"!=" , 'cash'],
+                         ['method',"!=" , 'qris']
+                         ]);
+                }else{
+                    $baseQuery->where('method', $method);
+                }
             }
 
-                // 2. Hitung Statistik (Menggunakan Base Query)
-                // Clone query agar tidak mengganggu query utama
             $statsSuccess = (clone $baseQuery)->where('payment_status', 'success');
             $statsFailed  = (clone $baseQuery)->where('payment_status','failed'); 
 
@@ -75,13 +81,14 @@ class PaymentService
             $totalIncome       = $statsSuccess->sum('amount');
             $totalCancelled    = $statsFailed->count();
 
-                // Hindari division by zero untuk rata-rata
             $averageIncome = $totalTransactions > 0 ? $totalIncome / $totalTransactions : 0;
 
-                // 3. Ambil Data List (Khusus yang Success saja untuk ditampilkan di tabel)
             $payments = (clone $baseQuery)
             ->with('order')
             ->where('payment_status', 'success')
+            ->whereHas('order', function($q) {
+                $q->where('updated_by', auth()->id());
+            })
             ->latest('paid_at')
             ->paginate(10)
             ->appends([
@@ -90,8 +97,6 @@ class PaymentService
                 'method' => $method
             ]);
 
-                // 4. Return Custom JSON Structure
-                // Kita gabungkan data pagination default laravel dengan data stats
             return response()->json(array_merge(
                 $payments->toArray(),
                 [
@@ -119,16 +124,16 @@ class PaymentService
         }
         $payment = Payment::findOrFail($id);
 
-        $updateData = ['payment_status' => $status];
+        $updateData = [
+            'payment_status' => $status,
+            'updated_by' => auth()->id(),
+            ];
 
         if ($status === 'success') {
             $updateData['paid_at'] = now();
         }
-
         $payment->update($updateData);
-
         return $payment;
-
 
     }
 }

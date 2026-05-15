@@ -23,9 +23,9 @@
         <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
 
             <div class="flex justify-between items-center border-b border-gray-100 pb-4 mb-6">
-                <span class="text-sm text-gray-500">Nomor Meja</span>
+                <span class="text-sm text-gray-500"> {{ $order->table_id == null ? 'ID ORDER' : 'Nomor Meja'}}</span>
                 <span class="text-lg font-bold text-gray-800">
-                    {{ $order->table->table_number}}
+                    {{ $order->table->table_number ?? $order->order_code }}
                 </span>
             </div>
 
@@ -65,7 +65,7 @@
             </div>
 
             {{-- 3. KONDISI BAYAR ONLINE (MIDTRANS) --}}
-            @elseif($order->payment->method == 'midtrans' && $order->payment->payment_status == 'pending')
+            @elseif(!empty($order->payment->snap_token) && $order->payment->payment_status == 'pending')
 
             <div class="text-center py-6">
                 <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
@@ -82,19 +82,17 @@
 
             {{-- 4. KONDISI CASH (TUNAI) --}}
             @elseif($order->payment->method == 'cash') 
-
             <div class="text-center py-6">
                 <div class="w-20 h-20 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
                     <svg class="w-10 h-10 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                 </div>
                 <h3 class="text-lg font-bold text-gray-800 mb-2">Bayar di Kasir</h3>
                 <p class="text-sm text-gray-500 leading-relaxed">
-                    Silakan menuju kasir dan sebutkan nomor meja 
-                    <span class="font-bold text-gray-800">{{ $order->table->table_number}}</span> 
+                    Silakan menuju kasir dan sebutkan {{ $order->payment->table_number == null ? 'ID ORDER' : 'Nomor Meja'}}
+                    <span class="font-bold text-gray-800">{{  $order->payment->table_number ?? $order->order_code }}</span> 
                     atau tunjukkan halaman ini untuk melakukan pembayaran tunai.
                 </p>
             </div>
-
             <div class="mt-4">
                 <a href="{{ route('customer.order.history') }}" class="block w-full text-center bg-gray-100 text-gray-700 font-bold py-3 rounded-xl hover:bg-gray-200 transition-colors text-sm">
                     Cek Status Pesanan
@@ -175,7 +173,7 @@
 @section('js')
 
 {{-- SCRIPT KHUSUS MIDTRANS JIKA METODENYA MIDTRANS & MASIH PENDING --}}
-@if($order->payment->method == 'midtrans' && $order->payment->payment_status == 'pending')
+@if(!empty($order->payment->snap_token) && $order->payment->payment_status == 'pending')
 <script src="{{ env('MIDTRANS_SNAP_URL', 'https://app.sandbox.midtrans.com/snap/snap.js') }}" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
 <script>
     async function syncPaymentStatus(paymentResult, title, message, iconType) {

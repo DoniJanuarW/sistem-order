@@ -22,6 +22,10 @@ return new class extends Migration
                   ->default('pending');
             $table->string('transfer_proof')->nullable();
             $table->timestamp('paid_at')->nullable();
+            $table->foreignId('updated_by')
+                  ->nullable()
+                  ->constrained('users')
+                  ->cascadeOnDelete();
             $table->timestamps();
         });
     }
