@@ -68,13 +68,17 @@
             <div class="flex gap-3 cursor-pointer" onclick="showOrderDetail({{ json_encode($order) }}, {{ json_encode($order->items) }})">
                 <div class="w-16 h-16 bg-gray-100 rounded-xl overflow-hidden flex-shrink-0 relative">
                     <div class="absolute inset-0 flex items-center justify-center text-2xl">
-                        <img src="{{ $order->items->first()->menu->image_url}}" alt="{{ $order->items->first()->menu->name ?? 'Menu' }}" class="w-full h-full object-cover rounded-xl"/>
+                        @if($order->items->first()?->menu)
+                        <img src="{{ $order->items->first()->menu->image_url }}" alt="{{ $order->items->first()->menu->name }}" class="w-full h-full object-cover rounded-xl"/>
+                        @else
+                        <span class="text-gray-400 text-sm">No Image</span>
+                        @endif
                     </div>
                 </div>
 
                 <div class="flex-1 flex flex-col justify-center">
                     <h3 class="font-bold text-gray-800 text-sm line-clamp-1">
-                        {{ $order->items->first()->menu->name ?? 'Menu Terhapus' }}
+                        {{ $order->items->first()?->menu?->name ?? 'Menu Terhapus' }}
                     </h3>
 
                     @if($order->items->count() > 1)
@@ -336,6 +340,7 @@
         items.forEach(item => {
             const menuName = item.menu ? item.menu.name : 'Item dihapus';
             const menuImage = item.menu ? item.menu.image_url : '';
+            const menuPrice = item.menu ? item.menu.price : 0;
             const html = `
                 <div class="flex gap-4">
                     <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-xl flex-shrink-0 overflow-hidden">
@@ -344,10 +349,10 @@
                     <div class="flex-1">
                         <div class="flex justify-between items-start">
                             <h4 class="text-sm font-bold text-gray-700 line-clamp-2">${menuName}</h4>
-                            <span class="text-xs font-semibold text-gray-600 whitespace-nowrap ml-2">${formatRupiah(item.menu.price * item.qty)}</span>
+                            <span class="text-xs font-semibold text-gray-600 whitespace-nowrap ml-2">${formatRupiah(menuPrice * item.qty)}</span>
                         </div>
                         <div class="flex justify-between mt-1">
-                            <span class="text-xs text-gray-400">${item.qty}x @ ${formatRupiah(item.menu.price)}</span>
+                            <span class="text-xs text-gray-400">${item.qty}x @ ${formatRupiah(menuPrice)}</span>
                         </div>
                 ${item.note ? `<p class="text-[10px] text-gray-400 italic mt-1">Catatan: ${item.note}</p>` : ''}
                     </div>
