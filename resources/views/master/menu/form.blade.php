@@ -53,7 +53,7 @@
         @php
         $selectedCategory = old('category_id', $menu->category_id ?? '');
         @endphp
-        <option value="">Pilih Kategori</option>
+        <!-- <option value="">Pilih Kategori</option> -->
         @foreach($categories as $category)
           <option value="{{ $category->id }}" {{ $selectedCategory == $category->id ? 'selected' : '' }}>
             {{ $category->name }}

@@ -154,41 +154,6 @@
             </div>
         </div>
         
-        <div class="lg:col-span-1 bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col h-[480px]">
-            <div class="p-6 border-b border-gray-100 bg-white">
-                <h2 class="text-lg font-bold text-gray-800">Pendapatan Harian Kasir</h2>
-                <p class="text-xs text-gray-500 mt-1">Update secara real-time</p>
-            </div>
-
-            <div class="p-4 space-y-3 overflow-y-auto flex-1 custom-scrollbar">
-                @forelse($recentTransactions as $tx)
-                <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all cursor-pointer">
-                    <div class="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center text-[#014421] flex-shrink-0">
-                        <i class="ti ti-check text-xl"></i>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <div class="flex justify-between items-center mb-1">
-                            <p class="text-sm font-bold text-gray-800 truncate">
-                                {{ $tx->order->table->table_number ?? 'TA' }} - {{ $tx->order->guest_name ?? 'Walk-In Customer' }}
-                            </p>
-                            <span class="text-sm font-extrabold text-[#014421]">
-                                +{{ number_format($tx->amount/1000, 0) }}k
-                            </span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <p class="text-[11px] text-gray-500 font-medium">Inv: #{{ substr($tx->payment_code, -6) }}</p>
-                            <p class="text-[11px] text-gray-400 font-medium">{{ \Carbon\Carbon::parse($tx->paid_at)->diffForHumans() }}</p>
-                        </div>
-                    </div>
-                </div>
-                @empty
-                <div class="flex flex-col items-center justify-center h-full text-center text-gray-500">
-                    <i class="ti ti-receipt-off text-4xl mb-2 text-gray-300"></i>
-                    <p class="text-sm font-medium">Belum ada transaksi</p>
-                </div>
-                @endforelse
-            </div>
-        </div>
     </div>
 </div>
 @endsection

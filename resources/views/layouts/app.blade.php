@@ -123,7 +123,7 @@ $showSidebar = in_array($userRole, $rolesWithSidebar);
             </div> 
         </nav>
 
-        <div class="p-4 border-t border-green-800">
+        <!-- <div class="p-4 border-t border-green-800">
             <div class="flex items-center gap-3 user-profile transition-all">
                 <img src="{{ asset('assets/images/profile/user-1.jpg') }}" class="w-8 h-8 rounded-full flex-shrink-0" alt="User" />
 
@@ -132,7 +132,7 @@ $showSidebar = in_array($userRole, $rolesWithSidebar);
                     <p class="text-xs text-white truncate">{{ ucfirst($userRole) }}</p>
                 </div>
             </div>
-        </div>
+        </div> -->
     </aside>
     @endif
     {{-- ================= SIDEBAR END ================= --}}

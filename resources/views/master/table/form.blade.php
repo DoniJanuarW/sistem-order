@@ -11,8 +11,8 @@
 <form id="table-form">
 	<div class="bg-white border rounded-xl shadow-xl p-6">
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-			<x-form-input name="table_number"  id="table_number" label="No table"  placeholder="Masukan nomor table " icon="ti ti-user" required  :value="old('table_number', $table->table_number ?? '')"/>
-			<x-form-select name="status" id="status" label="Status" :options="['active' => 'Available', 'inactive' => 'Inactive']" :value="old('status', $table->status ?? '')" required />
+			<x-form-input name="table_number"  id="table_number" label="No table"  placeholder="Masukan nomor table " icon="ti ti-user" required  :value="old('table_number', $table->getData()->table_number ?? '')"/>
+			<x-form-select name="status" id="status" label="Status" :options="['active' => 'Tersedia', 'inactive' => 'Tidak Tersedia']" :value="old('status', $table->getData()->status ?? '')" required />
 				</div>
 				<div class="flex gap-2 my-3">
 					<button type="reset" class="flex items-center gap-2 px-5 py-2
@@ -29,7 +29,6 @@
 	</form>
 
 	<x-loading-spinner id="loading-spinner" />
-
 	@endsection
 
 	@section('js')
@@ -50,7 +49,7 @@
 			columns:  []
 		});
 		window.tableManager.isEditMode = {{ $table ? 'true' : 'false' }};
-		window.tableManager.currentId = {{ $table->id ?? 'null' }};
+		window.tableManager.currentId = {{ $table->getData()->id ?? 'null' }};
 	});
 </script>
 @endsection

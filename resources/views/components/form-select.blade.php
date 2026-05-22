@@ -5,7 +5,7 @@
     'required' => false,
     'icon' => null,
     'options' => [], // ['value' => 'label']
-    'selected' => '',
+    'value' => '', // <-- Ubah 'selected' menjadi 'value'
     'placeholder' => 'Pilih opsi'
 ])
 
@@ -35,13 +35,14 @@
                        transition-all duration-200"
                 {{ $attributes }}>
             @if($placeholder)
-            <option value="" disabled {{ !$selected ? 'selected' : '' }}>{{ $placeholder }}</option>
+            <option value="" disabled {{ !$value ? 'selected' : '' }}>{{ $placeholder }}</option>
             @endif
             
             @if($slot->isEmpty())
-                @foreach($options as $value => $label)
-                <option value="{{ $value }}" {{ $selected == $value ? 'selected' : '' }}>
-                    {{ $label }}
+                {{-- Perhatikan perubahan variabel $value loop di bawah ini agar tidak bentrok dengan $value dari props --}}
+                @foreach($options as $optValue => $optLabel)
+                <option value="{{ $optValue }}" {{ $value == $optValue ? 'selected' : '' }}>
+                    {{ $optLabel }}
                 </option>
                 @endforeach
             @else
@@ -51,4 +52,3 @@
     </div>
     <p class="text-sm text-red-600 hidden error-text" data-error-for="{{ $name }}"></p>
 </div>
-
