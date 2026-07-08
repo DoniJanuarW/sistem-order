@@ -38,7 +38,6 @@
                     <label class="block text-sm font-semibold text-gray-700">
                         Password
                     </label>
-                    <a href="#" class="!text-[#014421] text-xs font-medium  hover:underline">Lupa Password?</a>
                 </div>
                 
                 <div class="relative">

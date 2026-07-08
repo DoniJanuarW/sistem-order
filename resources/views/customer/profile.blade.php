@@ -22,7 +22,7 @@
 			<div class="absolute top-0 right-0 w-24 h-24 bg-green-50 rounded-bl-full -mr-4 -mt-4 opacity-50"></div>
 
 			<div class="relative">
-				<img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=014421&color=fff&size=128" 
+				<img src="{{ Auth::user()->photo_url ?? 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) . '&background=014421&color=fff&size=128' }}" 
 				alt="Avatar" 
 				class="w-16 h-16 rounded-full border-2 border-white shadow-md object-cover">
 				<div class="absolute bottom-0 right-0 bg-green-500 w-4 h-4 rounded-full border-2 border-white"></div>
@@ -36,7 +36,7 @@
 				</span>
 			</div>
 
-			<a href="#" class="p-2 bg-gray-50 rounded-full text-gray-500 hover:bg-[#014421] hover:text-white transition-all">
+			<a href="{{ route('customer.profile.edit') }}" class="p-2 bg-gray-50 rounded-full text-gray-500 hover:bg-[#014421] hover:text-white transition-all">
 				<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
 			</a>
 		</div>
@@ -46,7 +46,7 @@
 			<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden divide-y divide-gray-50">
 
 				{{-- Edit Profile --}}
-				<a href="#" class="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group">
+				<a href="{{ route('customer.profile.edit') }}" class="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group">
 					<div class="flex items-center gap-3">
 						<div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
 							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
@@ -57,23 +57,12 @@
 				</a>
 
 				{{-- Ubah Password --}}
-				<a href="#" class="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group">
+				<a href="{{ route('customer.profile.password.form') }}" class="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group">
 					<div class="flex items-center gap-3">
 						<div class="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center text-orange-600 group-hover:scale-110 transition-transform">
 							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
 						</div>
 						<span class="text-sm font-semibold text-gray-700">Ganti Password</span>
-					</div>
-					<svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-				</a>
-
-				{{-- Alamat Tersimpan --}}
-				<a href="#" class="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group">
-					<div class="flex items-center gap-3">
-						<div class="w-8 h-8 rounded-full bg-purple-50 flex items-center justify-center text-purple-600 group-hover:scale-110 transition-transform">
-							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-						</div>
-						<span class="text-sm font-semibold text-gray-700">Daftar Alamat</span>
 					</div>
 					<svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
 				</a>
@@ -85,25 +74,25 @@
 			<h3 class="text-sm font-bold text-gray-400 mb-3 px-1 uppercase tracking-wider">Info Lainnya</h3>
 			<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden divide-y divide-gray-50">
 
-				<a href="#" class="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group">
-					<div class="flex items-center gap-3">
-						<div class="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center text-[#014421] group-hover:scale-110 transition-transform">
-							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-						</div>
-						<span class="text-sm font-semibold text-gray-700">Pusat Bantuan</span>
+			<a href="{{ route('help') }}" class="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group">
+				<div class="flex items-center gap-3">
+					<div class="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center text-[#014421] group-hover:scale-110 transition-transform">
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
 					</div>
-					<svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-				</a>
+					<span class="text-sm font-semibold text-gray-700">Pusat Bantuan</span>
+				</div>
+				<svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+			</a>
 
-				<a href="#" class="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group">
-					<div class="flex items-center gap-3">
-						<div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 group-hover:scale-110 transition-transform">
-							<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-						</div>
-						<span class="text-sm font-semibold text-gray-700">Syarat & Ketentuan</span>
+			<a href="{{ route('terms') }}" class="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors group">
+				<div class="flex items-center gap-3">
+					<div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 group-hover:scale-110 transition-transform">
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
 					</div>
-					<svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-				</a>
+					<span class="text-sm font-semibold text-gray-700">Syarat & Ketentuan</span>
+				</div>
+				<svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+			</a>
 
 			</div>
 		</div>

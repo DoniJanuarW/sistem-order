@@ -112,4 +112,28 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | INFORMATION
+    |--------------------------------------------------------------------------
+    */
+    [
+        'section' => 'Information',
+        'roles' => ['admin', 'cashier'],
+        'items' => [
+            [
+                'label' => 'Pusat Bantuan',
+                'icon'  => 'ti ti-help-circle',
+                'route' => 'help',
+                'roles' => ['admin', 'cashier'],
+            ],
+            [
+                'label' => 'Syarat & Ketentuan',
+                'icon'  => 'ti ti-file-text',
+                'route' => 'terms',
+                'roles' => ['admin', 'cashier'],
+            ],
+        ],
+    ],
+
 ];

@@ -8,6 +8,14 @@ Route::middleware('role:customer,cashier,admin')->group(function () {
     Route::post('/midtrans-callback', [\App\Http\Controllers\MidtransWebhookController::class, 'handle']);
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'dashboard'])->name('dashboard');
     Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+
+    Route::get('/help', function () {
+        return view('help');
+    })->name('help');
+
+    Route::get('/terms', function () {
+        return view('terms');
+    })->name('terms');
 });
 
 Route::middleware('role:guest')->group(function () {
@@ -18,6 +26,26 @@ Route::middleware('role:guest')->group(function () {
         Route::post('/login', 'authenticate')->name('login.store');
         Route::post('/register', 'store')->name('register.store');
     });
+
+    // Rute Reset Password (Lupa Password)
+    Route::get('/forgot-password', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'showForm'])->name('password.request');
+    Route::post('/forgot-password', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendResetLink'])->name('password.email');
+    Route::get('/reset-password', [\App\Http\Controllers\Auth\ResetPasswordController::class, 'showForm'])->name('password.reset');
+    Route::post('/reset-password', [\App\Http\Controllers\Auth\ResetPasswordController::class, 'reset'])->name('password.update');
+});
+
+Route::middleware('role:customer,cashier,admin')->group(function () {
+    Route::post('/midtrans-callback', [\App\Http\Controllers\MidtransWebhookController::class, 'handle']);
+    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+
+    Route::get('/help', function () {
+        return view('help');
+    })->name('help');
+
+    Route::get('/terms', function () {
+        return view('terms');
+    })->name('terms');
 });
 
 
@@ -162,4 +190,12 @@ Route::middleware('role:customer')->group(function () {
     Route::get('/profile', function () {
         return view('customer.profile');
     })->name('customer.profile');
+
+    Route::prefix('profile')->controller(\App\Http\Controllers\Customer\ProfileController::class)->group(function () {
+        Route::get('/edit', 'edit')->name('customer.profile.edit');
+        Route::put('/update', 'update')->name('customer.profile.update');
+
+        Route::get('/password', 'passwordForm')->name('customer.profile.password.form');
+        Route::put('/password', 'updatePassword')->name('customer.profile.password');
+    });
 });
